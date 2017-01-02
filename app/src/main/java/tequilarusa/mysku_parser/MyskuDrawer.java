@@ -79,10 +79,10 @@ public class MyskuDrawer extends Drawer {
                 case 4:
 
                     break;
-                default:
-                    return;
             }
-
+            if (fragment == null) {
+                return;
+            }
 
             // Create a new fragment and specify the planet to show based on position
 
