@@ -10,11 +10,14 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import tequilarusa.mysku.R;
+import com.tequilarusa.mysku.R;
 
 
 public class MainActivity extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+
+    private int mCurFragment = 1;
+    private MyskuDrawer mDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +26,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        new MyskuDrawer(this, toolbar).build();
+        mDrawer = new MyskuDrawer(this, toolbar);
+        mDrawer.build();
 
-        Fragment fragment = new MainFragment();
-        Bundle args = new Bundle();
+        if(savedInstanceState != null)
+        {
+            mCurFragment = Integer.valueOf(savedInstanceState.getString("currentFragment"));
+        }
+
+        Fragment fragment = mDrawer.getFragment(mCurFragment);
+        //Bundle args = new Bundle();
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment)
@@ -86,6 +95,22 @@ public class MainActivity extends AppCompatActivity {
         Button buttonAddInFavourite = (Button) findViewById(R.id.button_add_in_favourite);
         buttonAddInFavourite.setText("Добавлено");
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+        outState.putString("currentFragment", String.valueOf(mCurFragment));
+    }
+
+    public int getCurFragment() {
+        return mCurFragment;
+    }
+
+    public void setCurFragment(int mCurFragment) {
+        this.mCurFragment = mCurFragment;
+    }
+
     /** Called when the user clicks the Send button
      public void sendMessage(View view) {
      Intent intent = new Intent(this, DisplayMessageActivity.class);

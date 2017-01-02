@@ -18,7 +18,7 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
-import tequilarusa.mysku.R;
+import com.tequilarusa.mysku.R;
 
 /**
  * Created by Maks on 29.12.2016.
@@ -26,9 +26,9 @@ import tequilarusa.mysku.R;
 
 public class MyskuDrawer extends Drawer {
 
-    private AppCompatActivity mainView;
+    private MainActivity mainView;
 
-    public MyskuDrawer(final AppCompatActivity mainView, Toolbar toolbar) {
+    public MyskuDrawer(final MainActivity mainView, Toolbar toolbar) {
         this.mainView = mainView;
         withActivity(mainView);
         withToolbar(toolbar);
@@ -67,24 +67,13 @@ public class MyskuDrawer extends Drawer {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
-            Fragment fragment = null;
-            switch (position) {
-                case 1:
-                    fragment = new MainFragment();
-                    break;
-                case 2:
-                    fragment = new ProfileFragment();
-                    break;
-                case 3:
-
-                    break;
-                case 4:
-
-                    break;
-            }
+            Fragment fragment = getFragment(position);
             if (fragment == null) {
                 return;
             }
+
+            mainView.setCurFragment(position);
+
 
             // Create a new fragment and specify the planet to show based on position
 
@@ -103,6 +92,25 @@ public class MyskuDrawer extends Drawer {
 //        setTitle(mPlanetTitles[position]);
 //        mDrawerLayout.closeDrawer(mDrawerList);
         }
+    }
+
+    public Fragment getFragment(int position) {
+        Fragment result = null;
+        switch (position) {
+            case 1:
+                result = new MainFragment();
+                break;
+            case 2:
+                result = new ProfileFragment();
+                break;
+            case 3:
+
+                break;
+            case 4:
+
+                break;
+        }
+        return result;
     }
 
 

@@ -11,7 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import tequilarusa.mysku.R;
+import com.tequilarusa.mysku.R;
 
 /**
  * Created by Maks on 29.12.2016.
