@@ -1,4 +1,4 @@
-package tequilarusa.mysku_parser;
+package com.tequilarusa.mysku.viewer;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;

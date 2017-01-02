@@ -1,4 +1,4 @@
-package tequilarusa.mysku_parser;
+package com.tequilarusa.mysku.viewer;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

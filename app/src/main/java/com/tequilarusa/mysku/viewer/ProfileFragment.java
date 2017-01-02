@@ -1,4 +1,4 @@
-package tequilarusa.mysku_parser;
+package com.tequilarusa.mysku.viewer;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import tequilarusa.mysku.R;
 
 /**
  * Created by Maks on 29.12.2016.

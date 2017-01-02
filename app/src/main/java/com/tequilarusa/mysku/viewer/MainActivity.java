@@ -1,17 +1,16 @@
-package tequilarusa.mysku_parser;
+package com.tequilarusa.mysku.viewer;
 
-import android.content.Context;
 import android.os.Bundle;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import tequilarusa.mysku.R;
 
 
 public class MainActivity extends AppCompatActivity {

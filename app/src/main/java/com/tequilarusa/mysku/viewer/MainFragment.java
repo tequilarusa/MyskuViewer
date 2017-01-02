@@ -1,4 +1,4 @@
-package tequilarusa.mysku_parser;
+package com.tequilarusa.mysku.viewer;
 
 
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
+
+import tequilarusa.mysku.R;
 
 /**
  * Created by Maks on 29.12.2016.

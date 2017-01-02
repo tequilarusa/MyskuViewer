@@ -1,4 +1,4 @@
-package tequilarusa.mysku_parser;
+package com.tequilarusa.mysku.viewer;
 
 import org.junit.Test;
 
