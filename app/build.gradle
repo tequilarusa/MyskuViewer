@@ -29,6 +29,7 @@ android {
         compile 'com.android.support:design:24.0.0'
         compile 'com.squareup.okhttp3:okhttp:3.5.0'
         compile "com.squareup.okhttp3:okhttp-urlconnection:3.5.0"
+        compile group: 'org.jsoup', name: 'jsoup', version: '1.10.1'
         compile('com.mikepenz.materialdrawer:library:0.9.5@aar') {
             transitive = true
         }
