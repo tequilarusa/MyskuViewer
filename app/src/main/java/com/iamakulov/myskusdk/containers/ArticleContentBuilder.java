@@ -24,6 +24,16 @@ public class ArticleContentBuilder {
         return this;
     }
 
+    public ArticleContentBuilder setShortText(String shortText) {
+        content.shortText = shortText;
+        return this;
+    }
+
+    public ArticleContentBuilder setProductImage(String src) {
+        content.productImage = src;
+        return this;
+    }
+
     public ArticleContentBuilder setCategories(List<Category> categories) {
         content.categories = categories;
         return this;

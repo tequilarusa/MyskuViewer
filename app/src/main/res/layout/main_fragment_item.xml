@@ -9,36 +9,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Обзор мужской сумки"
-        android:textColor="@color/material_drawer_primary_text" /> <!--Название обзора добавляется с помощью парсера-->
+        android:textColor="@color/material_drawer_primary_text"
+        android:textSize="18sp"
+        android:textStyle="normal|bold" /> <!--Название обзора добавляется с помощью парсера-->
 
     <TextView
         android:id="@+id/price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Цена: $110"
-        android:textColor="@color/material_drawer_primary_text"/>
+        android:textColor="@color/material_drawer_primary_text" />
 
     <TextView
         android:id="@+id/link_to_shop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Перейти в магазин"
-        android:textColor="@color/material_drawer_primary_text" /> <!-- Добавить переход по ссылке -->
+        android:text="@string/go_to_market"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDark" /> <!-- Добавить переход по ссылке -->
 
-    <ImageView
-        android:id="@+id/title_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/material_drawer_primary_text" /><!--Картинка добавляется с помощью парсера-->
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/short_text_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Текст вставляется через парсер"
-        android:textColor="@color/material_drawer_primary_text" /> <!--Текст cut добавляется с помощью парсера-->
+        <ImageView
+            android:id="@+id/title_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/material_drawer_primary_text" /><!--Картинка добавляется с помощью парсера-->
 
+        <TextView
+            android:id="@+id/short_text_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Текст вставляется через парсер"
+            android:layout_toRightOf="@id/title_image"
+            android:textColor="@color/material_drawer_primary_text" /> <!--Текст cut добавляется с помощью парсера-->
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -75,16 +83,16 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="3dp"
             android:text="+86"
-            android:textSize="14sp"
-            android:textColor="@color/material_drawer_primary_text" />
+            android:textColor="@color/material_drawer_primary_text"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/prize_ranking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="+54"
-            android:textSize="14sp"
-            android:textColor="@color/material_drawer_primary_text" />
+            android:textColor="@color/material_drawer_primary_text"
+            android:textSize="14sp" />
 
     </LinearLayout>
 

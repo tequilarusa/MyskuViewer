@@ -6,6 +6,7 @@ public abstract class ArticleContent {
     Id id;
     String title;
     String body;
+    String shortText;
     List<Category> categories;
     String price;
     String marketLink;
@@ -14,6 +15,7 @@ public abstract class ArticleContent {
     String date;
     User author;
     String viewCount;
+    String productImage;
 
     public Id getId() {
         return id;
@@ -25,6 +27,14 @@ public abstract class ArticleContent {
 
     public String getBody() {
         return body;
+    }
+
+    public String getShortText() {
+        return shortText;
+    }
+
+    public String getProductImage() {
+        return productImage;
     }
 
     public List<Category> getCategories() {

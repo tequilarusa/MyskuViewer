@@ -40,7 +40,7 @@ public class MainFragment extends ListFragment implements AdapterView.OnItemClic
         @Override
         public void onReceive(Context context, Intent intent) {
             ArrayList articles = (ArrayList) intent.getSerializableExtra("articles");
-            ArrayAdapter<ArticlePreview> adapter = new ArrayAdapter<>(getActivity(), R.layout.mysku_list_item, articles);
+            ArticleAdapter adapter = new ArticleAdapter(getActivity(), articles);
             setListAdapter(adapter);
             getListView().setOnItemClickListener(MainFragment.this);
         }
