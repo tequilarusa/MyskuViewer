@@ -3,6 +3,10 @@ package com.tequilarusa.mysku.viewer.blog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +17,7 @@ import android.widget.TextView;
 
 import com.iamakulov.myskusdk.containers.ArticlePreview;
 import com.tequilarusa.mysku.R;
+import com.tequilarusa.mysku.viewer.article.ArticleFragment;
 import com.tequilarusa.mysku.viewer.images.ImageLoader;
 
 import java.util.ArrayList;
@@ -24,12 +29,12 @@ import uk.co.deanwild.flowtextview.FlowTextView;
  */
 
 public class ArticleAdapter extends BaseAdapter {
-    Context ctx;
+    FragmentActivity ctx;
     LayoutInflater lInflater;
     ArrayList<ArticlePreview> objects;
     ImageLoader imageLoader;
 
-    public ArticleAdapter(Context context, ArrayList<ArticlePreview> products) {
+    public ArticleAdapter(FragmentActivity context, ArrayList<ArticlePreview> products) {
         ctx = context;
         objects = products;
         imageLoader = new ImageLoader(context);
@@ -98,6 +103,28 @@ public class ArticleAdapter extends BaseAdapter {
 
         ((TextView) view.findViewById(R.id.author_of_review)).setText(article.getContent().getAuthor().getUsername());
         ((TextView) view.findViewById(R.id.number_of_comments)).setText(article.getCommentCount());
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Intent intent = new Intent(ctx, ArticleActivity.class);
+//                EditText editText = (EditText) findViewById(R.id.edit_message);
+//                String message = editText.getText().toString();
+//                intent.putExtra(EXTRA_MESSAGE, message);
+//                ctx.startActivity(intent);
+
+                Fragment articleFragment = new ArticleFragment();
+
+                FragmentManager fragmentManager = ctx.getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, articleFragment)
+                        .addToBackStack(null)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .commit();
+
+
+            }
+        });
 
         return view;
     }

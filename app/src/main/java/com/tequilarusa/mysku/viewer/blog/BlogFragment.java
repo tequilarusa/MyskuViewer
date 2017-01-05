@@ -39,7 +39,9 @@ public class BlogFragment extends ListFragment implements AdapterView.OnItemClic
             ArrayList<ArticlePreview> articles = (ArrayList) intent.getSerializableExtra("articles");
             ArticleAdapter adapter = new ArticleAdapter(getActivity(), articles);
             setListAdapter(adapter);
-            getListView().setOnItemClickListener(BlogFragment.this);
+            if (getView() != null) {
+                getListView().setOnItemClickListener(BlogFragment.this);
+            }
         }
     };
 

@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.tequilarusa.mysku.R;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
     public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 
     private int mCurFragment = 1;
@@ -37,9 +37,11 @@ public class MainActivity extends AppCompatActivity {
 
         //Bundle args = new Bundle();
         FragmentManager fragmentManager = this.getSupportFragmentManager();
+        fragmentManager.addOnBackStackChangedListener(this);
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment)
                 .commit();
+        shouldDisplayHomeUp();
     }
 
     private void displayTitleOfReview(String message) {
@@ -111,6 +113,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("currentFragment", String.valueOf(mCurFragment));
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        shouldDisplayHomeUp();
+    }
+
+    public void shouldDisplayHomeUp() {
+        //Enable Up button only  if there are entries in the back stack
+        boolean canback = getSupportFragmentManager().getBackStackEntryCount() > 0;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(canback);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        //This method is called when the up button is pressed. Just the pop back stack.
+        getSupportFragmentManager().popBackStack();
+        return true;
     }
 
     public int getCurFragment() {
