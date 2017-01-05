@@ -1,4 +1,4 @@
-package com.tequilarusa.mysku.viewer;
+package com.tequilarusa.mysku.viewer.profile;
 
 import android.os.AsyncTask;
 import android.widget.TextView;

@@ -45,7 +45,7 @@ public class ArticleContentHelpers {
             .setProductImage(element.select(".content .product_image").attr("src"))
             .setDate(element.select(".date-info").attr("data-date-info"))
             .setId(new ArticleContent.Id(articleUrl))
-            .setPrice(element.select(".sku-info .price").text().replaceAll("[^\\d.$]", "").trim())
+            .setPrice(element.select(".sku-info .price").text().trim())
             .setRating(
                 // `.total` contains the total rating as a text node next to the another counter,
                 // so we need to remove the another counter’s text

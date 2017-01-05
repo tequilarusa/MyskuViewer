@@ -16,6 +16,7 @@ public abstract class ArticleContent {
     User author;
     String viewCount;
     String productImage;
+    ArticleContentBuilder.Kind kind;
 
     public Id getId() {
         return id;
@@ -43,6 +44,10 @@ public abstract class ArticleContent {
 
     public String getPrice() {
         return price;
+    }
+
+    public ArticleContentBuilder.Kind getKind() {
+        return kind;
     }
 
     public String getMarketLink() {

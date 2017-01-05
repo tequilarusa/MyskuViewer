@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -18,15 +17,19 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.tequilarusa.mysku.R;
+import com.tequilarusa.mysku.viewer.blog.BlogFragment;
+import com.tequilarusa.mysku.viewer.profile.ProfileFragment;
 
 /**
  * Created by Maks on 29.12.2016.
  */
 
-public class MyskuDrawer extends Drawer {
+public class MyskuDrawer extends Drawer implements Drawer.OnDrawerListener, Drawer.OnDrawerItemClickListener {
 
     private MainActivity mainView;
+    private Result drawerResult;
 
     public MyskuDrawer(final MainActivity mainView, Toolbar toolbar) {
         this.mainView = mainView;
@@ -45,60 +48,57 @@ public class MyskuDrawer extends Drawer {
                 new DividerDrawerItem(),
                 new SecondaryDrawerItem().withName(R.string.drawer_item_contact).withIcon(FontAwesome.Icon.faw_github).withBadge("12+").withIdentifier(7)
         );
-        withOnDrawerListener(new MyskuDrawerListener());
-        withOnDrawerItemClickListener(new MyskuDrawerItemClickListener());
+        withOnDrawerListener(this);
+        withOnDrawerItemClickListener(this);
+        drawerResult = build();
     }
 
-    class MyskuDrawerListener implements OnDrawerListener {
 
-        @Override
-        public void onDrawerOpened(View drawerView) {
-            InputMethodManager inputMethodManager = (InputMethodManager) mainView.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(mainView.getCurrentFocus().getWindowToken(), 0);
-        }
-
-        @Override
-        public void onDrawerClosed(View drawerView) {
-
-        }
+    @Override
+    public void onDrawerOpened(View drawerView) {
+        InputMethodManager inputMethodManager = (InputMethodManager) mainView.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(mainView.getCurrentFocus().getWindowToken(), 0);
     }
 
-    class MyskuDrawerItemClickListener implements OnDrawerItemClickListener {
+    @Override
+    public void onDrawerClosed(View drawerView) {
 
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
-            Fragment fragment = getFragment(position);
-            if (fragment == null) {
-                return;
-            }
-
-            mainView.setCurFragment(position);
+    }
 
 
-            // Create a new fragment and specify the planet to show based on position
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
+        Fragment fragment = getFragment(position);
+        if (fragment == null) {
+            return;
+        }
 
-            Bundle args = new Bundle();
+        mainView.setCurFragment(position);
+
+
+        // Create a new fragment and specify the planet to show based on position
+
+        Bundle args = new Bundle();
 //        args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
 //        fragment.setArguments(args);
 
-            // Insert the fragment by replacing any existing fragment
-            FragmentManager fragmentManager = mainView.getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, fragment)
-                    .commit();
-
-            // Highlight the selected item, update the title, and close the drawer
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = mainView.getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .commit();
+        mainView.getSupportActionBar().setTitle(getTitle(position));
+        // Highlight the selected item, update the title, and close the drawer
 //        mDrawerList.setItemChecked(position, true);
 //        setTitle(mPlanetTitles[position]);
 //        mDrawerLayout.closeDrawer(mDrawerList);
-        }
     }
 
     public Fragment getFragment(int position) {
         Fragment result = null;
         switch (position) {
             case 1:
-                result = new MainFragment();
+                result = new BlogFragment();
                 break;
             case 2:
                 result = new ProfileFragment();
@@ -113,5 +113,13 @@ public class MyskuDrawer extends Drawer {
         return result;
     }
 
+    public String getTitle(int position) {
+        IDrawerItem item = drawerResult.getDrawerItems().get(position - 1);
+        String result = null;
+        if (item instanceof Nameable) {
+            result = mainView.getString(((Nameable) item).getNameRes());
+        }
+        return result;
+    }
 
 }
