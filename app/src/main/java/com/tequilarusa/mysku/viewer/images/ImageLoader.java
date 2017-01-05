@@ -51,7 +51,7 @@ public class ImageLoader {
             cacheDir.mkdirs();
     }
 
-    final int stub_id = R.drawable.ic_launcher;
+    final int stub_id = R.mipmap.ic_stub;
 
     public void DisplayImage(String url, Activity activity, ImageView imageView) {
         if (cache.containsKey(url))

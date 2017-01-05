@@ -82,8 +82,8 @@ public class ArticleAdapter extends BaseAdapter {
         TextView sortDesc = ((TextView) view.findViewById(R.id.short_text_description));
         ImageView produceImage = ((ImageView) view.findViewById(R.id.title_image));
         produceImage.setTag(article.getContent().getProductImage());
-        imageLoader.DisplayImage(article.getContent().getProductImage(),(Activity)ctx, produceImage);
-        Display display = ((Activity)ctx).getWindowManager().getDefaultDisplay();
+        imageLoader.DisplayImage(article.getContent().getProductImage(), (Activity) ctx, produceImage);
+        Display display = ((Activity) ctx).getWindowManager().getDefaultDisplay();
         FlowTextHelper.tryFlowText(article.getContent().getShortText(), produceImage, sortDesc, display);
 
 //        sortDesc.setText(Html.fromHtml(article.getContent().getShortText()));
