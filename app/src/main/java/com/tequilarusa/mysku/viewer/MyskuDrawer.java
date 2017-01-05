@@ -16,7 +16,6 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.tequilarusa.mysku.R;
 import com.tequilarusa.mysku.viewer.blog.BlogFragment;
@@ -26,16 +25,17 @@ import com.tequilarusa.mysku.viewer.profile.ProfileFragment;
  * Created by Maks on 29.12.2016.
  */
 
-public class MyskuDrawer extends Drawer implements Drawer.OnDrawerListener, Drawer.OnDrawerItemClickListener {
+class MyskuDrawer extends Drawer implements Drawer.OnDrawerListener, Drawer.OnDrawerItemClickListener {
 
     private MainActivity mainView;
     private Result drawerResult;
+//    private ActionBarDrawerToggle actionBarDrawerToggle;
 
-    public MyskuDrawer(final MainActivity mainView, Toolbar toolbar) {
+    public MyskuDrawer(final MainActivity mainView, final Toolbar toolbar) {
         this.mainView = mainView;
         withActivity(mainView);
         withToolbar(toolbar);
-        withActionBarDrawerToggle(true);
+
         withHeader(R.layout.drawer_header);
         addDrawerItems(
                 new PrimaryDrawerItem().withName(R.string.drawer_item_home).withIcon(FontAwesome.Icon.faw_home).withBadge("99").withIdentifier(1),
@@ -50,7 +50,18 @@ public class MyskuDrawer extends Drawer implements Drawer.OnDrawerListener, Draw
         );
         withOnDrawerListener(this);
         withOnDrawerItemClickListener(this);
+
+
+        withActionBarDrawerToggle(true);
+
+
         drawerResult = build();
+        drawerResult.getActionBarDrawerToggle().setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainView.onSupportNavigateUp();
+            }
+        });
     }
 
 
@@ -118,6 +129,26 @@ public class MyskuDrawer extends Drawer implements Drawer.OnDrawerListener, Draw
         String result = null;
         if (item instanceof Nameable) {
             result = mainView.getString(((Nameable) item).getNameRes());
+        }
+        return result;
+    }
+
+    public void showDrawerIndicator(boolean rootLevel) {
+        drawerResult.getActionBarDrawerToggle().setDrawerIndicatorEnabled(rootLevel);
+    }
+
+    public boolean isDrawerOpen() {
+        return drawerResult.isDrawerOpen();
+    }
+
+    public void closeDrawer() {
+        drawerResult.closeDrawer();
+    }
+
+    public boolean checkCloseBeforeExit() {
+        boolean result = false;
+        if (result = isDrawerOpen()) {
+            closeDrawer();
         }
         return result;
     }

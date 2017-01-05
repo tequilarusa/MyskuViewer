@@ -17,10 +17,11 @@ import android.widget.TextView;
 
 import com.iamakulov.myskusdk.containers.ArticlePreview;
 import com.tequilarusa.mysku.R;
+import com.tequilarusa.mysku.viewer.MainActivity;
 import com.tequilarusa.mysku.viewer.article.ArticleFragment;
 import com.tequilarusa.mysku.viewer.images.ImageLoader;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import uk.co.deanwild.flowtextview.FlowTextView;
 
@@ -29,12 +30,12 @@ import uk.co.deanwild.flowtextview.FlowTextView;
  */
 
 public class ArticleAdapter extends BaseAdapter {
-    FragmentActivity ctx;
+    MainActivity ctx;
     LayoutInflater lInflater;
-    ArrayList<ArticlePreview> objects;
+    List<ArticlePreview> objects;
     ImageLoader imageLoader;
 
-    public ArticleAdapter(FragmentActivity context, ArrayList<ArticlePreview> products) {
+    public ArticleAdapter(MainActivity context, List<ArticlePreview> products) {
         ctx = context;
         objects = products;
         imageLoader = new ImageLoader(context);

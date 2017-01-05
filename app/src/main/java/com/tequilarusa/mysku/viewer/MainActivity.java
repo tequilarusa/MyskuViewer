@@ -3,6 +3,7 @@ package com.tequilarusa.mysku.viewer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment)
                 .commit();
-        shouldDisplayHomeUp();
+//        shouldDisplayHomeUp();
     }
 
     private void displayTitleOfReview(String message) {
@@ -117,20 +118,28 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     @Override
     public void onBackStackChanged() {
-        shouldDisplayHomeUp();
+        boolean rootLevel = getSupportFragmentManager().getBackStackEntryCount() == 0;
+        mDrawer.showDrawerIndicator(rootLevel);
     }
 
-    public void shouldDisplayHomeUp() {
-        //Enable Up button only  if there are entries in the back stack
-        boolean canback = getSupportFragmentManager().getBackStackEntryCount() > 0;
-        getSupportActionBar().setDisplayHomeAsUpEnabled(canback);
-    }
+//    public void shouldDisplayHomeUp() {
+//        //Enable Up button only  if there are entries in the back stack
+//        boolean canback = getSupportFragmentManager().getBackStackEntryCount() > 0;
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(canback);
+//    }
 
     @Override
     public boolean onSupportNavigateUp() {
         //This method is called when the up button is pressed. Just the pop back stack.
         getSupportFragmentManager().popBackStack();
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!mDrawer.checkCloseBeforeExit()) {
+            super.onBackPressed();
+        }
     }
 
     public int getCurFragment() {
