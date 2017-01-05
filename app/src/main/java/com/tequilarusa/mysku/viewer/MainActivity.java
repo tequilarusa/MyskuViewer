@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tequilarusa.mysku.R;
 
@@ -27,14 +28,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mDrawer = new MyskuDrawer(this, toolbar);
-        mDrawer.build();
 
-        if(savedInstanceState != null)
-        {
+        if (savedInstanceState != null) {
             mCurFragment = Integer.valueOf(savedInstanceState.getString("currentFragment"));
         }
 
         Fragment fragment = mDrawer.getFragment(mCurFragment);
+
         //Bundle args = new Bundle();
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         fragmentManager.beginTransaction()
@@ -86,19 +86,29 @@ public class MainActivity extends AppCompatActivity {
         //add method request to the service
         ImageButton voteForReview = (ImageButton) findViewById(R.id.button_voting_positive);
         voteForReview.setImageResource(R.drawable.after_like);
-        displayPrizeRanking("функция парсера");
-        displayNumberTotalVote("функция парсера");
+        Toast toast = Toast.makeText(this, "Голос учтен", Toast.LENGTH_LONG);
+        toast.show();
+//        displayPrizeRanking("функция парсера");
+//        displayNumberTotalVote("функция парсера");
+    }
+
+    public void addInCart(View view) {
+        ImageButton buttonAddInFavourite = (ImageButton) findViewById(R.id.button_add_in_cart);
+        buttonAddInFavourite.setImageResource(R.drawable.after_cart);
+        Toast toast = Toast.makeText(this, "Добавлено в корзину", Toast.LENGTH_LONG);
+        toast.show();
     }
 
     public void addInFavourite(View view) {
         //call method that send request to the server
-        Button buttonAddInFavourite = (Button) findViewById(R.id.button_add_in_favourite);
-        buttonAddInFavourite.setText("Добавлено");
+        ImageButton buttonAddInFavourite = (ImageButton) findViewById(R.id.button_add_in_favourite);
+        buttonAddInFavourite.setImageResource(R.drawable.after_favorite);
+        Toast toast = Toast.makeText(this, "Добавлено в избранное", Toast.LENGTH_LONG);
+        toast.show();
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState)
-    {
+    protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("currentFragment", String.valueOf(mCurFragment));
     }

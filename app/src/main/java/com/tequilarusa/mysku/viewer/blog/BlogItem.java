@@ -1,4 +1,4 @@
-package com.tequilarusa.mysku.viewer;
+package com.tequilarusa.mysku.viewer.blog;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
  * Created by Maks on 29.12.2016.
  */
 
-public class MainFragmentItem extends ListFragment {
+public class BlogItem extends ListFragment {
     private String url;
 
     @Override

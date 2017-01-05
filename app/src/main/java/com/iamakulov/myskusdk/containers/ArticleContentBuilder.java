@@ -7,6 +7,7 @@ public class ArticleContentBuilder {
 
     public ArticleContentBuilder(Kind kind) {
         content = kind == Kind.NORMAL ? new NormalArticleContent() : new CouponArticleContent();
+        content.kind = kind;
     }
 
     public ArticleContentBuilder setId(ArticleContent.Id id) {

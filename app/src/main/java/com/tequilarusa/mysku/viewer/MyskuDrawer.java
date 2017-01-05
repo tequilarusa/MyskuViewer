@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -18,7 +17,10 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.tequilarusa.mysku.R;
+import com.tequilarusa.mysku.viewer.blog.BlogFragment;
+import com.tequilarusa.mysku.viewer.profile.ProfileFragment;
 
 /**
  * Created by Maks on 29.12.2016.
@@ -27,6 +29,7 @@ import com.tequilarusa.mysku.R;
 public class MyskuDrawer extends Drawer {
 
     private MainActivity mainView;
+    private Result drawerResult;
 
     public MyskuDrawer(final MainActivity mainView, Toolbar toolbar) {
         this.mainView = mainView;
@@ -47,6 +50,7 @@ public class MyskuDrawer extends Drawer {
         );
         withOnDrawerListener(new MyskuDrawerListener());
         withOnDrawerItemClickListener(new MyskuDrawerItemClickListener());
+        drawerResult = build();
     }
 
     class MyskuDrawerListener implements OnDrawerListener {
@@ -86,7 +90,7 @@ public class MyskuDrawer extends Drawer {
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, fragment)
                     .commit();
-
+            mainView.getSupportActionBar().setTitle(getTitle(position));
             // Highlight the selected item, update the title, and close the drawer
 //        mDrawerList.setItemChecked(position, true);
 //        setTitle(mPlanetTitles[position]);
@@ -98,7 +102,7 @@ public class MyskuDrawer extends Drawer {
         Fragment result = null;
         switch (position) {
             case 1:
-                result = new MainFragment();
+                result = new BlogFragment();
                 break;
             case 2:
                 result = new ProfileFragment();
@@ -113,5 +117,13 @@ public class MyskuDrawer extends Drawer {
         return result;
     }
 
+    public String getTitle(int position) {
+        IDrawerItem item = drawerResult.getDrawerItems().get(position - 1);
+        String result = null;
+        if (item instanceof Nameable) {
+            result = mainView.getString(((Nameable) item).getNameRes());
+        }
+        return result;
+    }
 
 }

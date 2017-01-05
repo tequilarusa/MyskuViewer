@@ -1,11 +1,9 @@
-package com.tequilarusa.mysku.viewer;
+package com.tequilarusa.mysku.viewer.blog;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Html;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +13,11 @@ import android.widget.TextView;
 
 import com.iamakulov.myskusdk.containers.ArticlePreview;
 import com.tequilarusa.mysku.R;
-import com.tequilarusa.mysku.viewer.images.FlowTextHelper;
 import com.tequilarusa.mysku.viewer.images.ImageLoader;
 
 import java.util.ArrayList;
 
-import static android.text.Html.FROM_HTML_SEPARATOR_LINE_BREAK_DIV;
-import static android.text.Html.FROM_HTML_SEPARATOR_LINE_BREAK_LIST;
-import static android.text.Html.FROM_HTML_SEPARATOR_LINE_BREAK_LIST_ITEM;
+import uk.co.deanwild.flowtextview.FlowTextView;
 
 /**
  * Created by MaximKashapov on 03.01.2017.
@@ -62,13 +57,20 @@ public class ArticleAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         if (view == null) {
-            view = lInflater.inflate(R.layout.main_fragment_item, parent, false);
+            view = lInflater.inflate(R.layout.blog_item, parent, false);
         }
         final ArticlePreview article = getItem(position);
 
         ((TextView) view.findViewById(R.id.title_of_review)).setText(article.getContent().getTitle());
 
-        ((TextView) view.findViewById(R.id.price)).setText(article.getContent().getPrice());
+        TextView priceView = (TextView) view.findViewById(R.id.price);
+        if (article.getContent().getPrice().isEmpty()) {
+            priceView.setVisibility(View.GONE);
+        } else {
+            priceView.setText(article.getContent().getPrice());
+        }
+
+
         // TODO: flags FROM_HTML_SEPARATOR_LINE_BREAK_DIV + FROM_HTML_SEPARATOR_LINE_BREAK_LIST + FROM_HTML_SEPARATOR_LINE_BREAK_LIST_ITEM
         TextView marketLink = ((TextView) view.findViewById(R.id.link_to_shop));
         marketLink.setOnClickListener(new View.OnClickListener() {
@@ -79,14 +81,16 @@ public class ArticleAdapter extends BaseAdapter {
             }
         });
 
-        TextView sortDesc = ((TextView) view.findViewById(R.id.short_text_description));
+        FlowTextView sortDesc = ((FlowTextView) view.findViewById(R.id.short_text_description));
         ImageView produceImage = ((ImageView) view.findViewById(R.id.title_image));
         produceImage.setTag(article.getContent().getProductImage());
-        imageLoader.DisplayImage(article.getContent().getProductImage(),(Activity)ctx, produceImage);
-        Display display = ((Activity)ctx).getWindowManager().getDefaultDisplay();
-        FlowTextHelper.tryFlowText(article.getContent().getShortText(), produceImage, sortDesc, display);
+        imageLoader.DisplayImage(article.getContent().getProductImage(), produceImage);
+        sortDesc.setText(Html.fromHtml(article.getContent().getShortText()));
+        sortDesc.setTextSize(50);
+//        Display display = ((Activity)ctx).getWindowManager().getDefaultDisplay();
+//        FlowTextHelper.tryFlowText(article.getContent().getShortText(), produceImage, sortDesc, display);
 
-//        sortDesc.setText(Html.fromHtml(article.getContent().getShortText()));
+
         ((TextView) view.findViewById(R.id.quantity_of_favourite)).setText(article.getContent().getRating());
 
         ((TextView) view.findViewById(R.id.date_of_publication)).setText(article.getContent().getDate());
