@@ -39,7 +39,7 @@ public class ImageLoader implements Html.ImageGetter {
     private Context ctx;
     private PhotosLoader photoLoaderThread = new PhotosLoader();
     private PhotosQueue photosQueue = new PhotosQueue();
-    private final int stub_id = R.drawable.ic_launcher;
+    private final int stub_id = R.mipmap.ic_stub;
 
     private View container;
 

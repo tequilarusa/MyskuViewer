@@ -8,7 +8,12 @@
     <TextView
         android:id="@+id/review_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:textAppearance="@style/AppTheme.Toolbar.Title"
+        android:textColor="@color/material_drawer_icons"
+        android:textSize="20dp"
+        android:textAlignment="center" />
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -18,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!--<uk.co.deanwild.flowtextview.FlowTextView
+            <uk.co.deanwild.flowtextview.FlowTextView
                 android:id="@+id/full_text"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -35,9 +40,9 @@
                     android:layout_marginTop="6dp"
                     android:textColor="@color/material_drawer_primary_text" />
 
-            </uk.co.deanwild.flowtextview.FlowTextView>-->
+            </uk.co.deanwild.flowtextview.FlowTextView>
 
-            <ImageView
+            <!--<ImageView
                 android:id="@+id/title_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -47,12 +52,12 @@
                 android:layout_marginTop="6dp"
                 android:textColor="@color/material_drawer_primary_text" />
 
-            <uk.co.deanwild.flowtextview.FlowTextView
+            <TextView
                 android:id="@+id/full_text"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Текст вставляется через парсер"
-                android:textColor="@color/material_drawer_primary_text" />
+                android:textColor="@color/material_drawer_primary_text" />-->
 
         </RelativeLayout>
 
