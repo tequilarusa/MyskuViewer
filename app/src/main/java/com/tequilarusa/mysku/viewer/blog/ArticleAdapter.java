@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
@@ -15,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.iamakulov.myskusdk.containers.ArticleContent;
 import com.iamakulov.myskusdk.containers.ArticlePreview;
 import com.tequilarusa.mysku.R;
 import com.tequilarusa.mysku.viewer.MainActivity;
@@ -30,19 +30,20 @@ import uk.co.deanwild.flowtextview.FlowTextView;
  */
 
 public class ArticleAdapter extends BaseAdapter {
-    MainActivity ctx;
-    LayoutInflater lInflater;
-    List<ArticlePreview> objects;
-    ImageLoader imageLoader;
+    private final ImageLoader imageLoader;
+    private MainActivity mainActivity;
+    private LayoutInflater lInflater;
+    private List<ArticlePreview> objects;
+
+
 
     public ArticleAdapter(MainActivity context, List<ArticlePreview> products) {
-        ctx = context;
+        mainActivity = context;
         objects = products;
-        imageLoader = new ImageLoader(context);
-        lInflater = (LayoutInflater) ctx
+        imageLoader = context.getImageLoader();
+        lInflater = (LayoutInflater) mainActivity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
-
 
     @Override
     public int getCount() {
@@ -60,73 +61,78 @@ public class ArticleAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
+    public View getView(int position, View view, ViewGroup parent) {
+        ViewHolder holder;
         if (view == null) {
+            holder = new ViewHolder();
             view = lInflater.inflate(R.layout.blog_item, parent, false);
-        }
-        final ArticlePreview article = getItem(position);
-
-        ((TextView) view.findViewById(R.id.title_of_review)).setText(article.getContent().getTitle());
-
-        TextView priceView = (TextView) view.findViewById(R.id.price);
-        if (article.getContent().getPrice().isEmpty()) {
-            priceView.setVisibility(View.GONE);
+            holder.titleOfReview = (TextView) view.findViewById(R.id.title_of_review);
+            holder.linkToShop = (TextView) view.findViewById(R.id.link_to_shop);
+            holder.price = (TextView) view.findViewById(R.id.price);
+            holder.shortTextDescription = (FlowTextView) view.findViewById(R.id.short_text_description);
+            holder.titleImage = (ImageView) view.findViewById(R.id.title_image);
+            holder.quantityOfFavourite = (TextView) view.findViewById(R.id.quantity_of_favourite);
+            holder.dateOfPublication = (TextView) view.findViewById(R.id.date_of_publication);
+            holder.quantityOfLooks = (TextView) view.findViewById(R.id.quantity_of_looks);
+            holder.authorOfReview = (TextView) view.findViewById(R.id.author_of_review);
+            holder.numberOfComments = (TextView) view.findViewById(R.id.number_of_comments);
+            view.setTag(holder);
         } else {
-            priceView.setText(article.getContent().getPrice());
+            holder = (ViewHolder) view.getTag();
         }
 
+        final ArticlePreview article = getItem(position);
+        holder.articleId = article.getContent().getId();
+        holder.titleOfReview.setText(article.getContent().getTitle());
 
-        // TODO: flags FROM_HTML_SEPARATOR_LINE_BREAK_DIV + FROM_HTML_SEPARATOR_LINE_BREAK_LIST + FROM_HTML_SEPARATOR_LINE_BREAK_LIST_ITEM
-        TextView marketLink = ((TextView) view.findViewById(R.id.link_to_shop));
-        marketLink.setOnClickListener(new View.OnClickListener() {
+        if (article.getContent().getPrice().isEmpty()) {
+            holder.price.setVisibility(View.GONE);
+        } else {
+            holder.price.setText(article.getContent().getPrice());
+        }
+
+        holder.linkToShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(article.getContent().getMarketLink()));
-                ctx.startActivity(browserIntent);
+                mainActivity.startActivity(browserIntent);
             }
         });
 
-        FlowTextView sortDesc = ((FlowTextView) view.findViewById(R.id.short_text_description));
-        ImageView produceImage = ((ImageView) view.findViewById(R.id.title_image));
-        produceImage.setTag(article.getContent().getProductImage());
-        imageLoader.DisplayImage(article.getContent().getProductImage(), produceImage);
-        sortDesc.setText(Html.fromHtml(article.getContent().getShortText()));
-        sortDesc.setTextSize(50);
-//        Display display = ((Activity)ctx).getWindowManager().getDefaultDisplay();
-//        FlowTextHelper.tryFlowText(article.getContent().getShortText(), produceImage, sortDesc, display);
-
-
-        ((TextView) view.findViewById(R.id.quantity_of_favourite)).setText(article.getContent().getRating());
-
-        ((TextView) view.findViewById(R.id.date_of_publication)).setText(article.getContent().getDate());
-        ((TextView) view.findViewById(R.id.quantity_of_looks)).setText(article.getContent().getViewCount());
-
-        ((TextView) view.findViewById(R.id.author_of_review)).setText(article.getContent().getAuthor().getUsername());
-        ((TextView) view.findViewById(R.id.number_of_comments)).setText(article.getCommentCount());
+        holder.titleImage.setTag(article.getContent().getProductImage());
+        imageLoader.DisplayImage(article.getContent().getProductImage(), holder.titleImage);
+        holder.shortTextDescription.setText(Html.fromHtml(article.getContent().getShortText()));
+        holder.shortTextDescription.setTextSize(50);
+        holder.quantityOfFavourite.setText(article.getContent().getRating());
+        holder.dateOfPublication.setText(article.getContent().getDate());
+        holder.quantityOfLooks.setText(article.getContent().getViewCount());
+        holder.authorOfReview.setText(article.getContent().getAuthor().getUsername());
+        holder.numberOfComments.setText(article.getCommentCount());
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(ctx, ArticleActivity.class);
-//                EditText editText = (EditText) findViewById(R.id.edit_message);
-//                String message = editText.getText().toString();
-//                intent.putExtra(EXTRA_MESSAGE, message);
-//                ctx.startActivity(intent);
-
-                Fragment articleFragment = new ArticleFragment();
-
-                FragmentManager fragmentManager = ctx.getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, articleFragment)
-                        .addToBackStack(null)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .commit();
-
-
+                ArticleFragment article = new ArticleFragment();
+                article.setArticleId(((ViewHolder)view.getTag()).articleId);
+                mainActivity.replaceFragment(article);
             }
         });
 
         return view;
+    }
+
+    static class ViewHolder {
+        ArticleContent.Id articleId;
+        TextView titleOfReview;
+        TextView price;
+        TextView linkToShop;
+        FlowTextView shortTextDescription;
+        ImageView titleImage;
+        TextView quantityOfFavourite;
+        TextView dateOfPublication;
+        TextView quantityOfLooks;
+        TextView authorOfReview;
+        TextView numberOfComments;
+
     }
 }

@@ -4,8 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.tequilarusa.mysku.R;
@@ -24,7 +30,7 @@ import java.util.Stack;
  * Created by Maks on 04.01.2017.
  */
 
-public class ImageLoader {
+public class ImageLoader implements Html.ImageGetter {
 
     // the simplest in-memory cache implementation. This should be replaced with
     // something like SoftReference or BitmapOptions.inPurgeable(since 1.6)
@@ -34,6 +40,18 @@ public class ImageLoader {
     private PhotosLoader photoLoaderThread = new PhotosLoader();
     private PhotosQueue photosQueue = new PhotosQueue();
     private final int stub_id = R.drawable.ic_launcher;
+
+    private View container;
+
+    /***
+     * Construct the URLImageParser which will execute AsyncTask and refresh the container
+     * @param context
+     * @param view
+     */
+    public ImageLoader(Context context, View view) {
+        this(context);
+        this.container = view;
+    }
 
     public ImageLoader(Context context) {
         ctx = context;
@@ -107,7 +125,7 @@ public class ImageLoader {
 
     @Nullable
     // decodes image and scales it to reduce memory consumption
-    private Bitmap decodeFile(File f) {
+    private Bitmap  decodeFile(File f) {
         try {
             // decode image size
             BitmapFactory.Options o = new BitmapFactory.Options();
@@ -135,6 +153,66 @@ public class ImageLoader {
             Log.w("ImageLoader", "Image to decode could not found", e);
         }
         return null;
+    }
+
+    @Override
+    public Drawable getDrawable(String source) {
+        URLDrawable urlDrawable = new URLDrawable();
+
+        // get the actual source
+        ImageGetterAsyncTask asyncTask =
+                new ImageGetterAsyncTask( urlDrawable);
+
+        asyncTask.execute(source);
+
+        // return reference to URLDrawable where I will change with actual image from
+        // the src tag
+        return urlDrawable;
+    }
+
+    public class ImageGetterAsyncTask extends AsyncTask<String, Void, Drawable> {
+        URLDrawable urlDrawable;
+
+        public ImageGetterAsyncTask(URLDrawable d) {
+            this.urlDrawable = d;
+        }
+
+        @Override
+        protected Drawable doInBackground(String... params) {
+            String source = params[0];
+            return fetchDrawable(source);
+        }
+
+        @Override
+        protected void onPostExecute(Drawable result) {
+            // set the correct bound according to the result from HTTP call
+            urlDrawable.setBounds(0, 0, 0 + result.getIntrinsicWidth(), 0
+                    + result.getIntrinsicHeight());
+
+            // change the reference of the current drawable to the result
+            // from the HTTP call
+            urlDrawable.drawable = result;
+
+            // redraw the image by invalidating the container
+            ImageLoader.this.container.invalidate();
+        }
+
+        /***
+         * Get the Drawable from URL
+         * @param urlString
+         * @return
+         */
+        public Drawable fetchDrawable(String urlString) {
+            try {
+                Drawable drawable = new BitmapDrawable(getBitmap(urlString));
+                drawable.setBounds(0, 0, 0 + drawable.getIntrinsicWidth(), 0
+                        + drawable.getIntrinsicHeight());
+                return drawable;
+            } catch (Exception e) {
+                return null;
+            }
+        }
+
     }
 
     // Task for the queue
@@ -228,6 +306,20 @@ public class ImageLoader {
             if (!f.delete()) {
                 Log.w("ImageLoader", "Cached image could not delete: " + f.getAbsolutePath());
             }
+    }
+
+    class URLDrawable extends BitmapDrawable {
+        // the drawable that you need to set, you could set the initial drawing
+        // with the loading image if you need to
+        protected Drawable drawable;
+
+        @Override
+        public void draw(Canvas canvas) {
+            // override the draw to facilitate refresh function later
+            if(drawable != null) {
+                drawable.draw(canvas);
+            }
+        }
     }
 
 }

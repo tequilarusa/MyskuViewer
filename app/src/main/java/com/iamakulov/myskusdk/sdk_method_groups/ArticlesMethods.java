@@ -102,7 +102,7 @@ public class ArticlesMethods {
                 List<ArticlePreview> result = new ArrayList<>();
 
                 for (Element element : document.body().select(".topic")) {
-                    String articleLink = element.select(".content > .a").attr("href");
+                    String articleLink = element.select(".topic-title > a").attr("href");
                     ArticleContent content = ArticleContentHelpers.parseArticleContent(element, articleLink);
 
                     String commentCount = element.select(".comments-total").text()

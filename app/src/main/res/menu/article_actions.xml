@@ -11,11 +11,16 @@
         android:id="@+id/cart"
         android:icon="@drawable/ic_cart"
         android:title="@string/menu_cart"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
     <item
         android:id="@+id/like"
         android:icon="@drawable/ic_like"
         android:title="@string/menu_like"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/dislike"
+        android:icon="@drawable/ic_dislike"
+        android:title="@string/menu_like"
+        app:showAsAction="always" />
 
 </menu>

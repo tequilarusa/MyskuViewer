@@ -40,7 +40,7 @@ public class ArticleContentHelpers {
         ArticleContentBuilder factory = new ArticleContentBuilder(isCouponArticle ? Kind.COUPON : Kind.NORMAL)
             .setAuthor(UserHelpers.createUserFromUsername(element.select(".author a").text().trim()))
             .setBody(ArticleContentHelpers.cleanUpBody(element.select(".content").html().trim()))
-            .setShortText(element.select(".sku_short_text.description").html().trim())
+            .setShortText(element.select(".content .description").html().trim())
             .setCategories(categories)
             .setProductImage(element.select(".content .product_image").attr("src"))
             .setDate(element.select(".date-info").attr("data-date-info"))

@@ -3,6 +3,7 @@ package com.tequilarusa.mysku.viewer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +13,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.iamakulov.myskusdk.MyskuSdk;
+import com.iamakulov.myskusdk.MyskuSdkFactory;
 import com.tequilarusa.mysku.R;
+import com.tequilarusa.mysku.viewer.images.ImageLoader;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
@@ -20,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     private int mCurFragment = 1;
     private MyskuDrawer mDrawer;
+    private MyskuSdk mMyskuSdk;
+    private ImageLoader imageLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +41,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         }
 
         Fragment fragment = mDrawer.getFragment(mCurFragment);
-
-        //Bundle args = new Bundle();
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment)
                 .commit();
-//        shouldDisplayHomeUp();
     }
 
     private void displayTitleOfReview(String message) {
@@ -122,12 +125,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         mDrawer.showDrawerIndicator(rootLevel);
     }
 
-//    public void shouldDisplayHomeUp() {
-//        //Enable Up button only  if there are entries in the back stack
-//        boolean canback = getSupportFragmentManager().getBackStackEntryCount() > 0;
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(canback);
-//    }
-
     @Override
     public boolean onSupportNavigateUp() {
         //This method is called when the up button is pressed. Just the pop back stack.
@@ -142,6 +139,21 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         }
     }
 
+    public MyskuSdk getMyskuSdk() {
+        if (mMyskuSdk == null) {
+            mMyskuSdk = MyskuSdkFactory.createSdk();
+        }
+        return mMyskuSdk;
+    }
+
+    public ImageLoader getImageLoader() {
+        if (imageLoader == null) {
+            imageLoader = new ImageLoader(this);
+        }
+        return imageLoader;
+    }
+
+
     public int getCurFragment() {
         return mCurFragment;
     }
@@ -150,12 +162,15 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         this.mCurFragment = mCurFragment;
     }
 
-    /** Called when the user clicks the Send button
-     public void sendMessage(View view) {
-     Intent intent = new Intent(this, DisplayMessageActivity.class);
-     EditText editText = (EditText) findViewById(R.id.edit_message);
-     String message = editText.getText().toString();
-     intent.putExtra(EXTRA_MESSAGE, message);
-     startActivity(intent);
-     }*/
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.content_frame);
+        fragmentManager.beginTransaction()
+                .hide(currentFragment)
+                .add(R.id.content_frame, fragment)
+                .addToBackStack(null)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
+    }
+
 }

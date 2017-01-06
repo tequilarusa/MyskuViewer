@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/review_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--<uk.co.deanwild.flowtextview.FlowTextView
+                android:id="@+id/full_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Текст вставляется через парсер"
+                android:textColor="@color/material_drawer_primary_text">
+
+                <ImageView
+                    android:id="@+id/title_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="6dp"
+                    android:textColor="@color/material_drawer_primary_text" />
+
+            </uk.co.deanwild.flowtextview.FlowTextView>-->
+
+            <ImageView
+                android:id="@+id/title_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/material_drawer_primary_text" />
+
+            <uk.co.deanwild.flowtextview.FlowTextView
+                android:id="@+id/full_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Текст вставляется через парсер"
+                android:textColor="@color/material_drawer_primary_text" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

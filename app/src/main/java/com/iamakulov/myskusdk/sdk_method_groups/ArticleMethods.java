@@ -33,7 +33,7 @@ public class ArticleMethods {
     }
 
     public void getFullArticle(ArticleContent.Id articleId, final MyskuCallback<FullArticle> callback) {
-        retriever.get(UrlHelpers.getArticleUrlFromId(articleId), cookies, new MyskuCallback<Document>() {
+        retriever.get(articleId.id, cookies, new MyskuCallback<Document>() {
             @Override
             public void onSuccess(Document document) {
                 ArticleContent content = ArticleContentHelpers.parseArticleContent(document.body().select(".topic").first(), document.location());

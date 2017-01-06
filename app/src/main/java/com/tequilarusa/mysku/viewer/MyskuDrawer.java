@@ -21,11 +21,15 @@ import com.tequilarusa.mysku.R;
 import com.tequilarusa.mysku.viewer.blog.BlogFragment;
 import com.tequilarusa.mysku.viewer.profile.ProfileFragment;
 
+import java.util.HashMap;
+
 /**
  * Created by Maks on 29.12.2016.
  */
 
 class MyskuDrawer extends Drawer implements Drawer.OnDrawerListener, Drawer.OnDrawerItemClickListener {
+
+    HashMap<Integer, Fragment> fragmentCache = new HashMap<>();
 
     private MainActivity mainView;
     private Result drawerResult;
@@ -106,20 +110,23 @@ class MyskuDrawer extends Drawer implements Drawer.OnDrawerListener, Drawer.OnDr
     }
 
     public Fragment getFragment(int position) {
-        Fragment result = null;
-        switch (position) {
-            case 1:
-                result = new BlogFragment();
-                break;
-            case 2:
-                result = new ProfileFragment();
-                break;
-            case 3:
+        Fragment result = fragmentCache.get(position);
+        if (result == null) {
+            switch (position) {
+                case 1:
+                    result = new BlogFragment();
+                    break;
+                case 2:
+                    result = new ProfileFragment();
+                    break;
+                case 3:
 
-                break;
-            case 4:
+                    break;
+                case 4:
 
-                break;
+                    break;
+            }
+            fragmentCache.put(position, result);
         }
         return result;
     }
