@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,58 +10,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
+        android:textAlignment="center"
         android:textAppearance="@style/AppTheme.Toolbar.Title"
         android:textColor="@color/material_drawer_icons"
-        android:textSize="20dp"
-        android:textAlignment="center" />
+        android:textSize="20dp" />
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="fill_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <uk.co.deanwild.flowtextview.FlowTextView
+            <WebView
                 android:id="@+id/full_text"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Текст вставляется через парсер"
-                android:textColor="@color/material_drawer_primary_text">
-
-                <ImageView
-                    android:id="@+id/title_image"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="6dp"
-                    android:textColor="@color/material_drawer_primary_text" />
-
-            </uk.co.deanwild.flowtextview.FlowTextView>
-
-            <!--<ImageView
-                android:id="@+id/title_image"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="6dp"
-                android:textColor="@color/material_drawer_primary_text" />
-
-            <TextView
-                android:id="@+id/full_text"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Текст вставляется через парсер"
-                android:textColor="@color/material_drawer_primary_text" />-->
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </RelativeLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@android:drawable/ic_dialog_email"
+        app:layout_anchorGravity="bottom|right|end"
+        app:layout_anchor="@id/scrollView"
+        app:layout_behavior="com.tequilarusa.mysku.viewer.FABBehabior"/>
+
+    <include layout="@layout/fab_layout" />
 
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

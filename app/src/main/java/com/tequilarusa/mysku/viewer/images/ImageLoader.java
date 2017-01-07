@@ -13,6 +13,7 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.tequilarusa.mysku.R;
 
@@ -41,14 +42,14 @@ public class ImageLoader implements Html.ImageGetter {
     private PhotosQueue photosQueue = new PhotosQueue();
     private final int stub_id = R.mipmap.ic_stub;
 
-    private View container;
+    private TextView container;
 
     /***
      * Construct the URLImageParser which will execute AsyncTask and refresh the container
      * @param context
      * @param view
      */
-    public ImageLoader(Context context, View view) {
+    public ImageLoader(Context context, TextView view) {
         this(context);
         this.container = view;
     }
@@ -194,6 +195,7 @@ public class ImageLoader implements Html.ImageGetter {
             urlDrawable.drawable = result;
 
             // redraw the image by invalidating the container
+            ImageLoader.this.container.setEllipsize(null);
             ImageLoader.this.container.invalidate();
         }
 

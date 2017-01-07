@@ -1,14 +1,13 @@
 package com.tequilarusa.mysku.viewer;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     private MyskuDrawer mDrawer;
     private MyskuSdk mMyskuSdk;
     private ImageLoader imageLoader;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mDrawer = new MyskuDrawer(this, toolbar);
+        progressDialog = new ProgressDialog(this);
+        imageLoader = new ImageLoader(this);
+        mMyskuSdk = MyskuSdkFactory.createSdk();
 
         if (savedInstanceState != null) {
             mCurFragment = Integer.valueOf(savedInstanceState.getString("currentFragment"));
@@ -140,22 +143,20 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     }
 
     public MyskuSdk getMyskuSdk() {
-        if (mMyskuSdk == null) {
-            mMyskuSdk = MyskuSdkFactory.createSdk();
-        }
         return mMyskuSdk;
     }
 
     public ImageLoader getImageLoader() {
-        if (imageLoader == null) {
-            imageLoader = new ImageLoader(this);
-        }
         return imageLoader;
     }
 
 
     public int getCurFragment() {
         return mCurFragment;
+    }
+
+    public ProgressDialog getProgressDialog() {
+        return progressDialog;
     }
 
     public void setCurFragment(int mCurFragment) {
